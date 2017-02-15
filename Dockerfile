@@ -14,6 +14,8 @@ RUN curl --silent --show-error --fail --location \
  && chmod 0755 /usr/bin/caddy \
  && /usr/bin/caddy -version
 
+RUN mkdir -p /opt/assets
+
 EXPOSE 80 443 2015
 
 VOLUME /var/www
@@ -26,6 +28,8 @@ ENV RUN_ARGS=
 
 COPY Caddyfile /caddy/
 COPY index.html /var/www/
+COPY Caddyfile /opt/assets/
+COPY index.html /opt/assets/
 COPY start.sh /
 
 ENTRYPOINT ["/start.sh"]
