@@ -7,9 +7,10 @@ if [ ! -f /caddy/Caddyfile ]; then
   cp /opt/assets/Caddyfile /caddy/Caddyfile
 fi
 
-if [ ! -f /var/www/index.html ]; then
+if [ ! -f /var/www/index.html ] && [ ! -f /.index_created ]; then
   echo "Creating default index.html..."
   cp /opt/assets/index.html /var/www/
+  touch /.index_created
 fi
 
 echo "Executing: /usr/bin/caddy $args"
