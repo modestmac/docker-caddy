@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 default="--conf /caddy/Caddyfile --log stdout -agree"
 args=${RUN_ARGS:-$default}
 
