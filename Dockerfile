@@ -1,15 +1,12 @@
 FROM alpine:3.5
-LABEL maintainer "Carl Mercier <foss@carlmercier.com>"
-LABEL caddy_version="0.9.5" architecture="amd64"
-
-ARG plugins=awslambda,cors,expires,filemanager,filter,git,hugo,ipfilter,jsonp,jwt,locale,mailout,minify,multipass,prometheus,ratelimit,realip,search,upload
-ARG dns=cloudflare,digitalocean,dnsimple,dyn,gandi,googlecloud,linode,namecheap,ovh,rfc2136,route53,vultr
+LABEL maintainer "someone else"
+LABEL caddy_version="0.1" architecture="amd64"
 
 RUN apk add --no-cache openssh-client git tar curl ca-certificates && update-ca-certificates
 
 RUN curl --silent --show-error --fail --location \
       --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-      "https://caddyserver.com/download/build?os=linux&arch=amd64&features=${plugins},${dns}" \
+      "https://caddyserver.com/download/linux/amd64?plugins=http.awslambda,http.cgi,http.cors,http.expires,http.filemanager,http.filter,http.git,http.hugo,http.ipfilter,http.jwt,http.mailout,http.minify,http.prometheus,http.proxyprotocol,http.ratelimit,http.realip,http.upload,net,tls.dns.cloudflare,tls.dns.dnspod,tls.dns.dyn,tls.dns.googlecloud,tls.dns.namecheap" \
     | tar --no-same-owner -C /usr/bin/ -xz caddy \
  && chmod 0755 /usr/bin/caddy \
  && /usr/bin/caddy -version
