@@ -1,5 +1,3 @@
-caddy docker file
-
 FROM alpine:3.7
 LABEL maintainer "Stacy Suarez <s.suarez@me.com>"
 LABEL caddy_version="1.0.0" architecture="amd64"
