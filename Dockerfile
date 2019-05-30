@@ -1,15 +1,16 @@
-FROM alpine:3.5
-LABEL maintainer "someone else"
-LABEL caddy_version="0.1" architecture="amd64"
+caddy docker file
 
-RUN apk add --no-cache openssh-client git tar curl ca-certificates && update-ca-certificates
+FROM alpine:3.7
+LABEL maintainer "Stacy Suarez <s.suarez@me.com>"
+LABEL caddy_version="1.0.0" architecture="amd64"
 
-RUN curl --silent --show-error --fail --location \
-      --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-      "https://caddyserver.com/download/linux/amd64?plugins=dns,hook.service,http.authz,http.awses,http.awslambda,http.cache,http.cgi,http.cors,http.datadog,http.expires,http.filemanager,http.filter,http.forwardproxy,http.git,http.gopkg,http.grpc,http.hugo,http.ipfilter,http.jekyll,http.jwt,http.login,http.mailout,http.minify,http.nobots,http.prometheus,http.proxyprotocol,http.ratelimit,http.realip,http.reauth,http.restic,http.upload,http.webdav,net,tls.dns.dyn,tls.dns.googlecloud" \
-    | tar --no-same-owner -C /usr/bin/ -xz caddy \
- && chmod 0755 /usr/bin/caddy \
- && /usr/bin/caddy -version
+ARG plugins=docker,dyndns,http.cache,http.cgi,http.cors,http.forwardproxy,http.git,http.gopkg,http.grpc,http.ipfilter,http.login,http.nobots,http.realip,http.reauth,http.restic,http.s3browser,http.webdav,net
+
+ARG dns=tls.dns.azure,tls.dns.cloudflare,tls.dns.duckdns,tls.dns.dyn,tls.dns.godaddy,tls.dns.googlecloud,tls.dns.rfc2136
+
+RUN apk add --no-cache openssh-client git tar curl ca-certificates bash && update-ca-certificates
+
+RUN curl --silent https://getcaddy.com | /bin/bash -s personal $plugins,$dns
 
 RUN mkdir -p /opt/assets
 
